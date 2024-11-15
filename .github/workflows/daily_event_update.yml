@@ -23,18 +23,11 @@ jobs:
           python -m pip install --upgrade pip
           pip install selenium beautifulsoup4
 
-      - name: Set up Chrome
+      - name: Set up Chrome and ChromeDriver
         uses: browser-actions/setup-chrome@v1
         with:
-          chrome-version: '130'          # 使用指定的Chrome版本
-          install-chromedriver: false     # 禁用自动安装不兼容的ChromeDriver
-
-      - name: Install compatible ChromeDriver
-        run: |
-          # Download ChromeDriver version compatible with Chrome 130
-          curl -sS -o /tmp/chromedriver.zip "https://storage.googleapis.com/chrome-for-testing-public/131.0.6778.69/linux64/chromedriver-linux64.zip"
-          sudo unzip /tmp/chromedriver.zip -d /usr/local/bin/
-          sudo chmod +x /usr/local/bin/chromedriver
+          chrome-version: 130
+          install-chromedriver: true
 
       - name: Run event script
         env:
