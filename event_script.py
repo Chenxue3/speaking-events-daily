@@ -1,3 +1,4 @@
+import time
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service  # Import Service for ChromeDriverManager
 from selenium.webdriver.chrome.options import Options
@@ -11,7 +12,7 @@ from bs4 import BeautifulSoup
 def fetch_event_page_with_selenium():
     # Configure Selenium Chrome options
     chrome_options = Options()
-    chrome_options.add_argument("--headless")  # Headless mode
+    # chrome_options.add_argument("--headless")  # Headless mode
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
     
@@ -23,13 +24,16 @@ def fetch_event_page_with_selenium():
     url = "https://auckland.campuslabs.com/engage/organization/tetumuherenga/events"
     driver.get(url)
 
+    driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+    time.sleep(10)  # Wait a few seconds to ensure content loads
+
     # Debugging: Print page content after loading
     print("Page content after loading:")
     print(driver.page_source[:1000])  # Print first 1000 characters to check content
 
     # Wait until event containers are loaded
     try:
-        WebDriverWait(driver, 20).until(
+        WebDriverWait(driver, 40).until(
             EC.presence_of_all_elements_located((By.CSS_SELECTOR, "div[style='box-sizing: border-box; padding: 10px; width: 50%; height: auto;']"))
         )
     except Exception as e:
