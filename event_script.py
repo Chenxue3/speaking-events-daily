@@ -24,10 +24,14 @@ def fetch_event_page_with_selenium():
     # Open the target webpage
     url = "https://auckland.campuslabs.com/engage/organization/tetumuherenga/events"
     driver.get(url)
-    
+
+    # Debugging: Print page content after loading
+    print("Page content after loading:")
+    print(driver.page_source[:1000])  # Print first 1000 characters to check content
+
     # Wait until event containers are loaded
     try:
-        WebDriverWait(driver, 10).until(
+        WebDriverWait(driver, 20).until(
             EC.presence_of_all_elements_located((By.CSS_SELECTOR, "div[style='box-sizing: border-box; padding: 10px; width: 50%; height: auto;']"))
         )
     except Exception as e:
