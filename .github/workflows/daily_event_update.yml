@@ -2,7 +2,7 @@ name: Daily Event Update
 
 on:
   schedule:
-    - cron: '0 23 * * *'  # 每天UTC时间的23:00，相当于NZDT的12:00PM
+    - cron: '0 23 * * *'  # NZDT的12:00PM
   workflow_dispatch:  # 手动触发工作流
 
 jobs:
@@ -26,8 +26,8 @@ jobs:
       - name: Set up Chrome and ChromeDriver
         uses: browser-actions/setup-chrome@v1
         with:
-          chrome-version: 'latest'           # 安装最新版本的Chrome
-          install-chromedriver: true          # 同时安装兼容的ChromeDriver
+          chrome-version: 'latest'
+          install-chromedriver: true
 
       - name: Run event script
         env:

@@ -1,8 +1,8 @@
+import os
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -18,9 +18,8 @@ def fetch_event_page_with_selenium():
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
     
-    # Specify the path for ChromeDriver
-    service = Service('/opt/homebrew/bin/chromedriver')  # Update the path as needed
-    driver = webdriver.Chrome(service=service, options=chrome_options)
+    # Initialize WebDriver without specifying the path
+    driver = webdriver.Chrome(options=chrome_options)
     
     # Open the target webpage
     url = "https://auckland.campuslabs.com/engage/organization/tetumuherenga/events"
@@ -97,9 +96,10 @@ def parse_speaking_group_events(page_content):
 
 # Function to send email with event details
 def send_email(events):
-    sender_email = "zoeachen1122@gmail.com" 
-    receiver_email = "xueshanchen1122@gmail.com"
-    password = "mnfcmaebkuwtonyz"
+    # Get email credentials from environment variables
+    sender_email = os.getenv("SENDER_EMAIL")
+    receiver_email = os.getenv("RECEIVER_EMAIL")
+    password = os.getenv("EMAIL_PASSWORD")
 
     # Set up email message
     message = MIMEMultipart("alternative")
