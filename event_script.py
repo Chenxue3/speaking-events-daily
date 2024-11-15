@@ -8,6 +8,9 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from bs4 import BeautifulSoup
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from webdriver_manager.chrome import ChromeDriverManager 
 import time
 
 # Function to fetch the webpage content with Selenium
@@ -18,13 +21,10 @@ def fetch_event_page_with_selenium():
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
     
-    # Initialize WebDriver without specifying the path
-    driver = webdriver.Chrome(options=chrome_options)
+    driver = webdriver.Chrome(ChromeDriverManager().install(), options=chrome_options)
     
-    # Open the target webpage
     url = "https://auckland.campuslabs.com/engage/organization/tetumuherenga/events"
     driver.get(url)
-
     # Debugging: Print page content after loading
     print("Page content after loading:")
     print(driver.page_source[:1000])  # Print first 1000 characters to check content
