@@ -2,8 +2,8 @@ name: Daily Event Update
 
 on:
   schedule:
-    - cron: '0 20,8 * * *'  # 每天UTC时间早上8点和晚上8点
-  workflow_dispatch:  # 手动触发工作流
+    - cron: '0 23 * * *' 
+  workflow_dispatch: 
 
 jobs:
   send_event_update:
