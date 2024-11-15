@@ -1,52 +1,47 @@
-import time
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service  # Import Service for ChromeDriverManager
+from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
-from webdriver_manager.chrome import ChromeDriverManager  # Import ChromeDriverManager
+from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from bs4 import BeautifulSoup
+import time
 
-# Function to fetch the webpage content with Selenium
 def fetch_event_page_with_selenium():
-    # Configure Selenium Chrome options
     chrome_options = Options()
-    # chrome_options.add_argument("--headless")  # Headless mode
+    chrome_options.add_argument("--headless=new")  # Use new headless mode
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.add_argument("--disable-gpu")
+    chrome_options.add_argument("--remote-debugging-port=9222")
+    chrome_options.add_argument("--disable-software-rasterizer")
     
     # Use ChromeDriverManager with Service
     service = Service(ChromeDriverManager().install())
-    driver = webdriver.Chrome(service=service, options=chrome_options)  # Pass service and options separately
+    driver = webdriver.Chrome(service=service, options=chrome_options)
     
-    # Open the target webpage
     url = "https://auckland.campuslabs.com/engage/organization/tetumuherenga/events"
     driver.get(url)
+    time.sleep(5)  # Wait 5 seconds for page to load fully
 
-    driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-    time.sleep(10)  # Wait a few seconds to ensure content loads
 
-    # Debugging: Print page content after loading
     print("Page content after loading:")
     print(driver.page_source[:1000])  # Print first 1000 characters to check content
 
-    # Wait until event containers are loaded
     try:
         WebDriverWait(driver, 40).until(
-            EC.presence_of_all_elements_located((By.CSS_SELECTOR, "div[style='box-sizing: border-box; padding: 10px; width: 50%; height: auto;']"))
+            EC.presence_of_all_elements_located((By.CLASS_NAME, "MuiCard-root"))
         )
     except Exception as e:
         print("Error waiting for page to load:", e)
         driver.quit()
         return None
     
-    # Retrieve page HTML content
     page_content = driver.page_source
     driver.quit()
     
     return page_content
-
 
 # Function to parse and extract event details from page content
 def parse_speaking_group_events(page_content):
