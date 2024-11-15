@@ -1,17 +1,11 @@
-import os
-import smtplib
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
 from selenium import webdriver
+from selenium.webdriver.chrome.service import Service  # Import Service for ChromeDriverManager
 from selenium.webdriver.chrome.options import Options
+from webdriver_manager.chrome import ChromeDriverManager  # Import ChromeDriverManager
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from bs4 import BeautifulSoup
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from webdriver_manager.chrome import ChromeDriverManager 
-import time
 
 # Function to fetch the webpage content with Selenium
 def fetch_event_page_with_selenium():
@@ -21,10 +15,14 @@ def fetch_event_page_with_selenium():
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
     
-    driver = webdriver.Chrome(ChromeDriverManager().install(), options=chrome_options)
+    # Use ChromeDriverManager with Service
+    service = Service(ChromeDriverManager().install())
+    driver = webdriver.Chrome(service=service, options=chrome_options)  # Pass service and options separately
     
+    # Open the target webpage
     url = "https://auckland.campuslabs.com/engage/organization/tetumuherenga/events"
     driver.get(url)
+
     # Debugging: Print page content after loading
     print("Page content after loading:")
     print(driver.page_source[:1000])  # Print first 1000 characters to check content
@@ -44,6 +42,7 @@ def fetch_event_page_with_selenium():
     driver.quit()
     
     return page_content
+
 
 # Function to parse and extract event details from page content
 def parse_speaking_group_events(page_content):
