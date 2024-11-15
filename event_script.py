@@ -54,7 +54,7 @@ def parse_speaking_group_events(page_content):
     
     # Find all outer <div> containers for events
     event_containers = soup.select("div[style='box-sizing: border-box; padding: 10px; width: 50%; height: auto;']")
-    
+    print("Number of event containers found:", len(event_containers))
     for container in event_containers:
         # Extract the event link from the parent container's <a> tag
         link_tag = container.find("a", href=True)
