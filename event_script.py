@@ -31,7 +31,7 @@ def fetch_event_page_with_selenium():
 
 
     print("Page content after loading:")
-    print(driver.page_source[:1000])  # Print first 1000 characters to check content
+    print(driver.page_source[:10000])  # Print first 1000 characters to check content
 
     try:
         WebDriverWait(driver, 40).until(
@@ -55,6 +55,7 @@ def parse_speaking_group_events(page_content):
     # Find all outer <div> containers for events
     event_containers = soup.select("div[style='box-sizing: border-box; padding: 10px; width: 50%; height: auto;']")
     print("Number of event containers found:", len(event_containers))
+
     for container in event_containers:
         # Extract the event link from the parent container's <a> tag
         link_tag = container.find("a", href=True)
