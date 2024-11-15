@@ -27,11 +27,16 @@ jobs:
         # setup-chrome Action
         uses: browser-actions/setup-chrome@v1
 
-      - name: Set up ChromeDriver
-        # 使用 setup-chromedriver Action 安装 ChromeDriver
-        uses: nanasess/setup-chromedriver@v1
-        with:
-          chrome-version: 'latest'  # 自动匹配安装的 Chrome 版本
+      steps:
+        - uses: actions/checkout@v2
+        - uses: nanasess/setup-chromedriver@v2
+          with:
+            # Optional: do not specify to match Chrome's version
+            chromedriver-version: '88.0.4324.96'
+        - run: |
+            export DISPLAY=:99
+            chromedriver --url-base=/wd/hub &
+            sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 & # optional
 
       - name: Run event script
         env:
