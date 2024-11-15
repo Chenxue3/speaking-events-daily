@@ -1,3 +1,7 @@
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+import os
+import smtplib
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
@@ -162,3 +166,5 @@ if page_content:
         print("No matching events found. Email not sent.")
 else:
     print("Failed to fetch page content.")
+
+
