@@ -1,6 +1,9 @@
 name: Daily Event Update
 
 on:
+  push:
+    branches:
+      - main
   schedule:
     - cron: '0 23 * * *'  # NZDT 12:00PM
   workflow_dispatch:  # Manual trigger
