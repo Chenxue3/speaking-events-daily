@@ -53,7 +53,7 @@ def parse_speaking_group_events(page_content):
     speaking_group_events = []  # List to store matched events
     
     # Find all outer <div> containers for events
-    event_containers = soup.select("div[style='box-sizing: border-box; padding: 10px; width: 50%; height: auto;']")
+    event_containers = soup.select("div")
     print("Number of event containers found:", len(event_containers))
 
     for container in event_containers:
